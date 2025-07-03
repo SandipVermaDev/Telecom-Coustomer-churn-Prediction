@@ -85,7 +85,7 @@
 
 ## 🎥 Demo
 
-![App Demo](assets\demo.gif)
+![App Demo](assets/demo.gif)
 
 ---
 
