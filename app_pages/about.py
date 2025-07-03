@@ -21,8 +21,55 @@ def show_about():
 
 
 
-    st.title("💡 About This Application")
-
+    st.markdown("""
+        <style>
+        .about-animated-header {
+            text-align: center;
+            font-size: 2.1rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, #ff512f, #dd2476, #ff6a00, #ff512f, #b06ab3);
+            background-size: 200% auto;
+            color: #222;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-move 3s linear infinite, fadeInDown 1.2s;
+            margin-top: 0;
+            margin-bottom: 0.5em;
+            padding-top: 0;
+        }
+        .about-animated-header .emoji {
+            background: none !important;
+            -webkit-background-clip: initial !important;
+            -webkit-text-fill-color: initial !important;
+            color: inherit !important;
+            animation: none !important;
+        }
+        @keyframes gradient-move {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        @keyframes fadeInDown {
+            0% { opacity: 0; transform: translateY(-40px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-section {
+            animation: fadeInSection 1.2s;
+        }
+        @keyframes fadeInSection {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        </style>
+    """, unsafe_allow_html=True)
+    st.markdown("""
+        <h1 class='about-animated-header'>
+            <span class='emoji'>💡</span> About This Application
+        </h1>
+    """, unsafe_allow_html=True)
+    st.markdown("""
+        <div class='fade-in-section'>
+    """, unsafe_allow_html=True)
     st.markdown("""
     Welcome to the **Telecom Customer Churn Prediction** application! This tool is designed to help businesses predict customer churn (i.e., the likelihood of customers discontinuing their service) based on historical data. By understanding churn, businesses can proactively address customer retention and improve service offerings.
 
@@ -67,6 +114,5 @@ def show_about():
     The **Customer Churn Prediction** application is designed to assist businesses in retaining their customers by identifying those at high risk of leaving. It uses various machine learning models to predict churn and offers actionable insights to help reduce attrition. 
 
     Thank you for exploring this tool! Stay tuned for further updates and improvements.
-                
-
     """)
+    st.markdown("</div>", unsafe_allow_html=True)

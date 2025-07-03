@@ -93,3 +93,4 @@ Male,No,No,Yes,Yes,No,DSL,No,No,No,No,No,No,Month-to-month,Yes,Bank transfer (au
 Male,No,Yes,Yes,Yes,No,DSL,No,No,No,No,No,No,Month-to-month,Yes,Electronic check,12,70.0,1000.0,49.1,Moderate,No Churn,2025-04-23 09:57:02.206885
 Male,No,No,No,Yes,No,Fiber optic,No,No,No,No,No,No,Month-to-month,Yes,Electronic check,6,100.0,600.0,88.69,High,Churn,2025-05-25 23:21:50.744784
 Male,Yes,Yes,No,Yes,No,DSL,No,No,No,No,No,No,Month-to-month,Yes,Electronic check,6,70.0,600.0,64.42,Moderate,Churn,2025-05-28 11:16:44.043071
+Male,No,No,Yes,Yes,No,DSL,No,Yes,No,No,No,No,One year,Yes,Electronic check,12,70.0,1000.0,22.1,Low,No Churn,2025-07-03 14:35:40.772954

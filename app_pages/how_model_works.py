@@ -1,8 +1,55 @@
 import streamlit as st
 
 def show_how_model_works():
-    st.title("🧠 How the Churn Prediction Model Works")
-
+    st.markdown("""
+        <style>
+        .how-works-animated-header {
+            text-align: center;
+            font-size: 2.1rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, #ff512f, #dd2476, #ff6a00, #ff512f, #b06ab3);
+            background-size: 200% auto;
+            color: #222;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-move 3s linear infinite, fadeInDown 1.2s;
+            margin-top: 0;
+            margin-bottom: 0.5em;
+            padding-top: 0;
+        }
+        .how-works-animated-header .emoji {
+            background: none !important;
+            -webkit-background-clip: initial !important;
+            -webkit-text-fill-color: initial !important;
+            color: inherit !important;
+            animation: none !important;
+        }
+        @keyframes gradient-move {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        @keyframes fadeInDown {
+            0% { opacity: 0; transform: translateY(-40px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-section {
+            animation: fadeInSection 1.2s;
+        }
+        @keyframes fadeInSection {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        </style>
+    """, unsafe_allow_html=True)
+    st.markdown("""
+        <h1 class='how-works-animated-header'>
+            <span class='emoji'>🧠</span> How the Churn Prediction Model Works
+        </h1>
+    """, unsafe_allow_html=True)
+    st.markdown("""
+        <div class='fade-in-section'>
+    """, unsafe_allow_html=True)
     st.markdown("""
     This page provides an overview of the **churn prediction model** used in this application, including the data preprocessing steps, model architecture, and interpretability techniques.
 
@@ -110,4 +157,5 @@ def show_how_model_works():
     It empowers organizations to take **proactive retention actions** and improve customer satisfaction.
 
     """)
+    st.markdown("</div>", unsafe_allow_html=True)
 

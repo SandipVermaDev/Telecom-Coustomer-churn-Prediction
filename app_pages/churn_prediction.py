@@ -10,8 +10,72 @@ def show_churn_prediction():
 
 
     # Set page title and layout
-    st.markdown("<h1 style='color:#ff7f50;'>📊 Telecom Customer Churn Prediction</h1>", unsafe_allow_html=True)
-    st.markdown("Predict whether a customer will churn based on their profile. Let's make data-driven decisions! 💡")
+    st.markdown("""
+        <style>
+        .stButton>button {
+            background: linear-gradient(90deg, #ff512f, #dd2476, #ff6a00, #ff512f, #b06ab3);
+            background-size: 200% auto;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px 0 rgba(80,80,120,0.10);
+            transition: 0.3s;
+            border: none;
+            font-size: 1.1rem;
+            padding: 0.7em 2.2em;
+            animation: gradient-move 3s linear infinite;
+        }
+        .stButton>button:hover {
+            background-position: 100% 0;
+            color: #fff;
+            transform: scale(1.05);
+            box-shadow: 0 4px 16px 0 rgba(80,80,120,0.18);
+        }
+        </style>
+    """, unsafe_allow_html=True)
+    st.markdown("""
+        <h1 class='churn-animated-header'>Telecom Customer Churn Prediction <span class='rocket-plain'>📊</span></h1>
+        <style>
+        .churn-animated-header {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, #ff512f, #dd2476, #ff6a00, #ff512f, #b06ab3);
+            background-size: 200% auto;
+            color: #222;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-move 3s linear infinite, fadeInDown 1.2s;
+            margin-top: 0;
+            margin-bottom: 0.5em;
+            padding-top: 0;
+        }
+        .churn-animated-header .rocket-plain {
+            background: none !important;
+            -webkit-background-clip: initial !important;
+            -webkit-text-fill-color: initial !important;
+            color: inherit !important;
+            animation: none !important;
+        }
+        @keyframes gradient-move {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        @keyframes fadeInDown {
+            0% { opacity: 0; transform: translateY(-40px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-result {
+            animation: fadeInResult 1.2s;
+        }
+        @keyframes fadeInResult {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        </style>
+    """, unsafe_allow_html=True)
+    st.markdown("<div style='text-align:center; font-size:1.1rem; margin-bottom:1.5em;'>Predict whether a customer will churn based on their profile. Let's make data-driven decisions! 💡</div>", unsafe_allow_html=True)
 
 
 
@@ -123,7 +187,7 @@ def show_churn_prediction():
 
         col_submit1, col_submit2, col_submit3 = st.columns([2, 1, 1.5])
         with col_submit2:
-            submit = st.form_submit_button("🚀 Predict Churn", type="primary")
+            submit = st.form_submit_button("🚀 Predict Churn", type="primary", help="Click to predict churn")
 
 
 
@@ -198,7 +262,7 @@ def show_churn_prediction():
 
 
             st.markdown("---")
-            st.subheader("🔍 Prediction Result")
+            st.markdown("<div class='fade-in-result'><h3 style='text-align:center;'>🔍 Prediction Result</h3>", unsafe_allow_html=True)
 
             
             # Convert to percentage 
@@ -209,54 +273,63 @@ def show_churn_prediction():
             if churn_prob < 40:
                 churn_risk = "Low"
                 st.markdown(f"<h4 style='color: green; font-weight: bold;'>✅ Low Risk: The customer is unlikely to churn</h4>", unsafe_allow_html=True)
-                st.markdown(f"<p style='color:#27ae60; font-size:16px;'>Great! There's only a <strong>{churn_prob}%</strong> chance this customer might churn. They appear quite loyal.</p>", unsafe_allow_html=True)
+                st.markdown(f"<p style='color:#27ae60; font-size:16px;'>Great! There's only a <strong>{churn_prob}%</strong> chance this customer might churn. They appear quite loyal.</p></div>", unsafe_allow_html=True)
 
             elif churn_prob < 70:
                 churn_risk = "Moderate"
                 st.markdown(f"<h4 style='color: orange; font-weight: bold;'>⚠️ Moderate Risk: The customer may churn</h4>", unsafe_allow_html=True)
-                st.markdown(f"<p style='color:#f39c12; font-size:16px;'>Heads up! There's a <strong>{churn_prob}%</strong> chance this customer could churn. Consider proactive engagement.</p>", unsafe_allow_html=True)
+                st.markdown(f"<p style='color:#f39c12; font-size:16px;'>Heads up! There's a <strong>{churn_prob}%</strong> chance this customer could churn. Consider proactive engagement.</p></div>", unsafe_allow_html=True)
 
             else:
                 churn_risk = "High"
                 st.markdown(f"<h4 style='color: red; font-weight: bold;'>🔥 High Risk: The customer is likely to churn</h4>", unsafe_allow_html=True)
-                st.markdown(f"<p style='color:#e74c3c; font-size:16px;'>Alert! There's a <strong>{churn_prob}%</strong> chance this customer will churn. Immediate action is recommended!</p>", unsafe_allow_html=True)
+                st.markdown(f"<p style='color:#e74c3c; font-size:16px;'>Alert! There's a <strong>{churn_prob}%</strong> chance this customer will churn. Immediate action is recommended!</p></div>", unsafe_allow_html=True)
 
 
             # Display the probability bar
             st.markdown(f"<div style='font-size:16px;color: purple'>📊 Churn Risk Meter:</div>", unsafe_allow_html=True)
-            st.progress(int(churn_prob))
+            st.markdown(f"""
+                <div style='width:100%;background:#eee;border-radius:10px;height:32px;box-shadow:0 2px 8px #e0e0e0 inset;margin-bottom:1em;'>
+                  <div style='height:32px;width:{churn_prob}%;background:linear-gradient(90deg,#ff512f,#dd2476,#ff6a00,#ff512f,#b06ab3);border-radius:10px;transition:width 1s;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#fff;font-size:1.1em;box-shadow:0 2px 8px #b06ab3 inset;'>
+                    {churn_prob}%
+                  </div>
+                </div>
+            """, unsafe_allow_html=True)
 
 
             st.markdown("---")
             # 🎯 Tailored Suggestions
-            st.markdown("### 💡 Retention Suggestions")
+            st.markdown("<div class='fade-in-result'><h3 style='margin-bottom:0.5em;'>💡 Retention Suggestions</h3>", unsafe_allow_html=True)
 
             if churn_prob < 40:
                 st.markdown("""
                 <ul style='color: #27ae60; font-size:16px;'>
-                    <li>Consider offering a loyalty reward or a thank-you discount.</li>
-                    <li>Encourage the customer to leave a positive review.</li>
-                    <li>Promote value-added services like premium streaming or device protection.</li>
+                    <li>🎁 <b>Loyalty Reward:</b> Consider offering a loyalty reward or a thank-you discount.</li>
+                    <li>⭐ <b>Positive Review:</b> Encourage the customer to leave a positive review.</li>
+                    <li>🔒 <b>Value-Added Services:</b> Promote value-added services like premium streaming or device protection.</li>
                 </ul>
+                </div>
                 """, unsafe_allow_html=True)
 
             elif churn_prob < 70:
                 st.markdown("""
                 <ul style='color: #f39c12; font-size:16px;'>
-                    <li>Send a personalized check-in email offering support or a special offer.</li>
-                    <li>Recommend upgrading to a longer-term contract for cost savings.</li>
-                    <li>Suggest enabling features like Online Backup or Tech Support.</li>
+                    <li>📧 <b>Check-in Email:</b> Send a personalized check-in email offering support or a special offer.</li>
+                    <li>⏳ <b>Upgrade Contract:</b> Recommend upgrading to a longer-term contract for cost savings.</li>
+                    <li>🛡️ <b>Enable Features:</b> Suggest enabling features like Online Backup or Tech Support.</li>
                 </ul>
+                </div>
                 """, unsafe_allow_html=True)
 
             else:
                 st.markdown("""
                 <ul style='color: #e74c3c; font-size:16px;'>
-                    <li>Flag this customer for a priority retention call or outreach.</li>
-                    <li>Offer a customized retention offer (e.g., 1-month free service, discount).</li>
-                    <li>Invite them to participate in a feedback survey to identify pain points.</li>
-                    <li>Consider enrolling them in a customer success or onboarding program.</li>
+                    <li>📞 <b>Priority Call:</b> Flag this customer for a priority retention call or outreach.</li>
+                    <li>🎟️ <b>Custom Offer:</b> Offer a customized retention offer (e.g., 1-month free service, discount).</li>
+                    <li>🤝 <b>Feedback Survey:</b> Invite them to participate in a feedback survey to identify pain points.</li>
+                    <li>🤝 <b>Onboarding Program:</b> Consider enrolling them in a customer success or onboarding program.</li>
                 </ul>
+                </div>
                 """, unsafe_allow_html=True)
 
 
@@ -269,7 +342,7 @@ def show_churn_prediction():
                 st.markdown("<p style='color:#c0392b;'>💳 Customers using electronic checks have higher churn rates. Suggest switching to a secure auto-payment option like bank or credit card transfer.</p>", unsafe_allow_html=True)
 
             if input_data['OnlineSecurity'] == 'No' or input_data['TechSupport'] == 'No':
-                st.markdown("<p style='color:#2980b9;'>🔐 This customer isn’t using Online Security or Tech Support. Promote these services to increase engagement and perceived value.</p>", unsafe_allow_html=True)
+                st.markdown("<p style='color:#2980b9;'>🔐 This customer isn't using Online Security or Tech Support. Promote these services to increase engagement and perceived value.</p>", unsafe_allow_html=True)
 
             if input_data['tenure'] <= 6:
                 st.markdown("<p style='color:#16a085;'>🆕 This customer is fairly new. First impressions matter! Offer onboarding support or a welcome reward to build loyalty early.</p>", unsafe_allow_html=True)
