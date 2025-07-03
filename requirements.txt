@@ -1,0 +1,14 @@
+streamlit
+streamlit-option-menu
+streamlit-lottie
+requests
+pandas
+numpy
+scikit-learn
+xgboost
+plotly
+shap
+matplotlib
+seaborn
+joblib
+Pillow 

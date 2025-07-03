@@ -3,6 +3,7 @@ def show_batch_prediction():
     import pandas as pd
     import numpy as np
     from utils.load_models import load_all
+    from utils.predict_utils import preprocess_input, make_prediction, get_retention_suggestion
     import plotly.express as px
 
 
@@ -134,34 +135,25 @@ def show_batch_prediction():
         
         original_df = df.copy()  # Preserve original for results
 
-        # Encode categorical columns
-        categorical_columns = list(label_encoders.keys())
-        for col in categorical_columns:
-            if col in df.columns: # type: ignore
-                le = label_encoders[col]
-                try:
-                    df[col] = df[col].apply(lambda x: x if x in le.classes_ else np.nan) # type: ignore
-                    if df[col].isnull().any(): # type: ignore
-                        st.warning(f"⚠️ Column '{col}' has unseen categories. Rows with unknown values will be skipped.")
-                    df = df[df[col].notnull()]  # type: ignore # Remove rows with unknown values
-                    df[col] = le.transform(df[col])
-                except Exception as e:
-                    st.error(f"Encoding error in column '{col}': {e}")
-                    return
-
-        # Scale numerical columns
-        numerical_columns = ['tenure', 'MonthlyCharges', 'TotalCharges']
-        try:
-            df[numerical_columns] = sc.transform(df[numerical_columns]) # type: ignore
-        except Exception as e:
-            st.error(f"Scaling error in numerical columns: {e}")
+        # Clean DataFrame for unknown categories
+        df_clean: pd.DataFrame = df.copy()
+        if not isinstance(df_clean, pd.DataFrame):
+            st.error("Input data is not a DataFrame after cleaning.")
             return
-
-        # Reorder columns
         try:
-            df = df[expected_cols]
-        except KeyError as e:
-            st.error(f"Column reordering failed: {e}")
+            for col in label_encoders.keys():
+                if col in df_clean.columns:
+                    le = label_encoders[col]
+                    df_clean[col] = df_clean[col].apply(lambda x: x if x in le.classes_ else np.nan)
+                    if df_clean[col].isnull().sum() > 0:
+                        st.warning(f"⚠️ Column '{col}' has unseen categories. Rows with unknown values will be skipped.")
+                    df_clean = df_clean.loc[df_clean[col].notnull()]
+            if len(df_clean) == 0:
+                st.warning("No valid rows remain after cleaning for unknown categories.")
+                return
+            preprocessed_rows = [preprocess_input(row, label_encoders, sc, expected_cols) for row in df_clean.to_dict(orient='records')]
+        except Exception as e:
+            st.error(f"Preprocessing error: {e}")
             return
 
         col1, col2, col3 = st.columns([2, 1, 2])
@@ -174,17 +166,21 @@ def show_batch_prediction():
         if predict_button:
             # Predictions
             try:
-                probs = voting_clf.predict_proba(df)[:, 1] # type: ignore
-                preds = voting_clf.predict(df) # type: ignore
+                probs = []
+                preds = []
+                for arr in preprocessed_rows:
+                    pred, prob = make_prediction(voting_clf, arr)
+                    preds.append(pred)
+                    probs.append(prob)
             except Exception as e:
                 st.error(f"Prediction failed: {e}")
                 return
 
             # Add predictions to original DataFrame
-            original_df = original_df.loc[df.index].copy() # type: ignore
-            original_df['Churn_Probability (%)'] = (probs * 100).round(2)
+            original_df = original_df.loc[df_clean.index].copy() # type: ignore
+            original_df['Churn_Probability (%)'] = (np.array(probs) * 100).round(2)
             original_df['Churn_Risk_Level'] = original_df['Churn_Probability (%)'].apply(lambda x: 'High' if x >= 70 else 'Moderate' if x >= 40 else 'Low')
-            original_df['Prediction'] = np.where(preds == 1, 'Churn', 'No Churn')
+            original_df['Prediction'] = np.where(np.array(preds) == 1, 'Churn', 'No Churn')
             original_df['Timestamp'] = pd.Timestamp.now()
 
             # Save to session state
@@ -211,11 +207,17 @@ def show_batch_prediction():
                 st.markdown('</div>', unsafe_allow_html=True)
 
 
-            # 🔍 Filter by Prediction Result
-            prediction_filter = st.selectbox("Filter by Prediction Result", options=["All", "Churn", "No Churn"],key="batch_prediction_filter")
+            # 🔍 Filter by Prediction Result and Churn Risk Level
+            col_filter1, col_filter2 = st.columns(2)
+            with col_filter1:
+                prediction_filter = st.selectbox("Filter by Prediction Result", options=["All", "Churn", "No Churn"], key="batch_prediction_filter")
+            with col_filter2:
+                risk_filter = st.selectbox("Filter by Churn Risk Level", options=["All", "High", "Moderate", "Low"], key="batch_risk_filter")
             filtered_df = original_df.copy()
             if prediction_filter != "All":
                 filtered_df = filtered_df[filtered_df["Prediction"] == prediction_filter]
+            if risk_filter != "All":
+                filtered_df = filtered_df[filtered_df["Churn_Risk_Level"] == risk_filter]
 
             if filtered_df.empty:
                 st.warning("⚠️ No results match the selected filter.")
@@ -322,27 +324,7 @@ def show_batch_prediction():
 
                         # Retention suggestions
                         st.markdown("### 💡 Retention Suggestions")
-                        suggestions = []
-
-                        if prob < 40:
-                            suggestions.extend([
-                                "Offer a loyalty reward or discount.",
-                                "Encourage leaving a positive review.",
-                                "Promote value-added services like streaming or device protection."
-                            ])
-                        elif prob < 70:
-                            suggestions.extend([
-                                "Send a personalized check-in email or offer support.",
-                                "Suggest longer-term contracts for savings.",
-                                "Enable Online Backup or Tech Support."
-                            ])
-                        else:
-                            suggestions.extend([
-                                "Flag for priority retention outreach.",
-                                "Offer customized retention deals.",
-                                "Invite feedback via survey to find pain points.",
-                                "Enroll in onboarding or success program."
-                            ])
+                        suggestions = get_retention_suggestion(prob)
 
                         # Context-based tips
                         if row['Contract'] == 'Month-to-month':

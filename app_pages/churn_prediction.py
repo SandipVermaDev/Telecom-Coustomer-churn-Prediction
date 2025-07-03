@@ -3,6 +3,7 @@ def show_churn_prediction():
     import pandas as pd
     import plotly.express as px
     from utils.load_models import load_all
+    from utils.predict_utils import preprocess_input, make_prediction, get_retention_suggestion
     import shap
 
     # Load models and preprocessors
@@ -230,22 +231,9 @@ def show_churn_prediction():
                 'TotalCharges': TotalCharges
             }
 
-            input_df = pd.DataFrame([input_data])
-
-            # Reorder input_df columns
-            input_df = input_df[feature_order]
-
-            # Step 2: Encode categorical columns using the same LabelEncoder
-            for col in categorical_columns:
-                le_col = label_encoders[col]
-                input_df[col] = le_col.transform(input_df[col])
-
-            # Step 3: Standardize numerical columns using saved scaler
-            input_df[numerical_columns] = sc.transform(input_df[numerical_columns])
-
-            # Step 4: Make prediction
-            pred_proba = voting_clf.predict_proba(input_df)[0]
-            pred_class = voting_clf.predict(input_df)[0]
+            input_df = preprocess_input(input_data, label_encoders, sc, feature_order)
+            pred_class, churn_prob_val = make_prediction(voting_clf, input_df)
+            pred_proba = [1-churn_prob_val, churn_prob_val]
 
 
 
@@ -301,36 +289,8 @@ def show_churn_prediction():
             # 🎯 Tailored Suggestions
             st.markdown("<div class='fade-in-result'><h3 style='margin-bottom:0.5em;'>💡 Retention Suggestions</h3>", unsafe_allow_html=True)
 
-            if churn_prob < 40:
-                st.markdown("""
-                <ul style='color: #27ae60; font-size:16px;'>
-                    <li>🎁 <b>Loyalty Reward:</b> Consider offering a loyalty reward or a thank-you discount.</li>
-                    <li>⭐ <b>Positive Review:</b> Encourage the customer to leave a positive review.</li>
-                    <li>🔒 <b>Value-Added Services:</b> Promote value-added services like premium streaming or device protection.</li>
-                </ul>
-                </div>
-                """, unsafe_allow_html=True)
-
-            elif churn_prob < 70:
-                st.markdown("""
-                <ul style='color: #f39c12; font-size:16px;'>
-                    <li>📧 <b>Check-in Email:</b> Send a personalized check-in email offering support or a special offer.</li>
-                    <li>⏳ <b>Upgrade Contract:</b> Recommend upgrading to a longer-term contract for cost savings.</li>
-                    <li>🛡️ <b>Enable Features:</b> Suggest enabling features like Online Backup or Tech Support.</li>
-                </ul>
-                </div>
-                """, unsafe_allow_html=True)
-
-            else:
-                st.markdown("""
-                <ul style='color: #e74c3c; font-size:16px;'>
-                    <li>📞 <b>Priority Call:</b> Flag this customer for a priority retention call or outreach.</li>
-                    <li>🎟️ <b>Custom Offer:</b> Offer a customized retention offer (e.g., 1-month free service, discount).</li>
-                    <li>🤝 <b>Feedback Survey:</b> Invite them to participate in a feedback survey to identify pain points.</li>
-                    <li>🤝 <b>Onboarding Program:</b> Consider enrolling them in a customer success or onboarding program.</li>
-                </ul>
-                </div>
-                """, unsafe_allow_html=True)
+            suggestions = get_retention_suggestion(churn_prob)
+            st.markdown("<ul style='font-size:16px; color:#444;'>" + "".join([f"<li>{s}</li>" for s in suggestions]) + "</ul></div>", unsafe_allow_html=True)
 
 
             st.markdown("---")
