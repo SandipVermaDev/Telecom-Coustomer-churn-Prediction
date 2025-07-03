@@ -60,6 +60,49 @@ def show_about():
             0% { opacity: 0; transform: translateY(30px); }
             100% { opacity: 1; transform: translateY(0); }
         }
+        /* Custom style for the '🎓 Know Sandip' button: keep width default, solid blue background, animated 2px border */
+        div.stButton > button {
+            background: #2193b0 !important;
+            color: #fff !important;
+            font-weight: bold !important;
+            border-radius: 8px !important;
+            border: none !important;
+            font-size: 1.1rem !important;
+            box-shadow: 0 0 0 2px #2193b0, 0 0 8px 2px #6dd5ed !important;
+            animation: animatedGlowBtn 2s linear infinite;
+            transition: 0.3s !important;
+        }
+        div.stButton > button:hover {
+            color: #fff !important;
+            transform: scale(1.05) !important;
+            animation: animatedGlowBtnHover 1.5s linear infinite !important;
+            box-shadow: 0 0 0 2px #ff512f, 0 0 8px 2px #b06ab3 !important;
+        }
+        @keyframes animatedGlowBtn {
+            0% {
+                box-shadow: 0 0 0 2px #2193b0, 0 0 8px 2px #6dd5ed;
+            }
+            50% {
+                box-shadow: 0 0 0 2px #6dd5ed, 0 0 8px 2px #2193b0;
+            }
+            100% {
+                box-shadow: 0 0 0 2px #2193b0, 0 0 8px 2px #6dd5ed;
+            }
+        }
+        @keyframes animatedGlowBtnHover {
+            0% {
+                box-shadow: 0 0 0 2px #ff512f, 0 0 8px 2px #b06ab3;
+            }
+            33% {
+                box-shadow: 0 0 0 2px #ff6a00, 0 0 8px 2px #ff512f;
+            }
+            66% {
+                box-shadow: 0 0 0 2px #b06ab3, 0 0 8px 2px #ff6a00;
+            }
+            100% {
+                box-shadow: 0 0 0 2px #ff512f, 0 0 8px 2px #b06ab3;
+            }
+        }
         </style>
     """, unsafe_allow_html=True)
     st.markdown("""
