@@ -75,7 +75,7 @@ def show_batch_prediction():
             transform: scale(1.05);
             box-shadow: 0 4px 16px 0 rgba(80,80,120,0.18);
         }
-        .stDataFrame, .stTable, .stDataFrame *, .stTable *, .stDataFrame table, .stDataFrame th, .stDataFrame td, .stTable table, .stTable th, .stTable td {
+        .stDataFrame, .stDataFrame table, .stDataFrame th, .stDataFrame td {
             color: #111 !important;
             -webkit-text-fill-color: #111 !important;
         }
@@ -307,7 +307,26 @@ def show_batch_prediction():
                         #         st.write(row[feature])
                         details_dict = {feature: row[feature] for feature in expected_cols}
                         details_df = pd.DataFrame(details_dict.items(), columns=["Feature", "Value"]) # type: ignore
-                        st.table(details_df)    
+                        
+                        st.markdown("""
+                            <style>
+                            /* Light mode: black text in table inside expander */
+                            html[data-theme='light'] .stExpander .stTable td,
+                            html[data-theme='light'] .stExpander .stTable th {
+                                color: #111 !important;
+                                -webkit-text-fill-color: #111 !important;
+                            }
+
+                            /* Dark mode: light text in table inside expander */
+                            html[data-theme='dark'] .stExpander .stTable td,
+                            html[data-theme='dark'] .stExpander .stTable th {
+                                color: #f0f0f0 !important;
+                                -webkit-text-fill-color: #f0f0f0 !important;
+                            }
+                            </style>
+                        """, unsafe_allow_html=True)
+
+                        st.table(details_df)
 
 
                         prob = row['Churn_Probability (%)']

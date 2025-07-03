@@ -32,6 +32,55 @@ def show_churn_prediction():
             transform: scale(1.05);
             box-shadow: 0 4px 16px 0 rgba(80,80,120,0.18);
         }
+        /* Blue gradient background for selectbox */
+        .stSelectbox > div[data-baseweb="select"] {
+            background: linear-gradient(90deg, #2193b0, #6dd5ed, #2193b0);
+            background-size: 200% 200%;
+            animation: blueGradientBG 6s ease infinite;
+            color: #fff !important;
+            border-radius: 8px;
+            font-weight: bold;
+            border: none;
+        }
+        /* Animated glow for selectbox on focus/hover with thinner border */
+        .stSelectbox > div[data-baseweb="select"]:focus-within, 
+        .stSelectbox > div[data-baseweb="select"]:hover {
+            animation: animatedGlow 2s linear infinite;
+            box-shadow: 0 0 0 2px #ff512f, 0 0 8px 2px #b06ab3;
+            border-radius: 8px;
+        }
+        /* Animated glow for the dropdown list box with thinner border */
+        div[data-baseweb="popover"] {
+            animation: animatedGlow 2s linear infinite;
+            box-shadow: 0 0 0 2px #ff512f, 0 0 8px 2px #b06ab3;
+            border-radius: 10px !important;
+        }
+        @keyframes animatedGlow {
+            0% {
+                box-shadow: 0 0 0 2px #ff512f, 0 0 8px 2px #b06ab3;
+            }
+            25% {
+                box-shadow: 0 0 0 2px #dd2476, 0 0 8px 2px #ff6a00;
+            }
+            50% {
+                box-shadow: 0 0 0 2px #ff6a00, 0 0 8px 2px #ff512f;
+            }
+            75% {
+                box-shadow: 0 0 0 2px #b06ab3, 0 0 8px 2px #dd2476;
+            }
+            100% {
+                box-shadow: 0 0 0 2px #ff512f, 0 0 8px 2px #b06ab3;
+            }
+        }
+        @keyframes blueGradientBG {
+            0% {background-position:0% 50%;}
+            50% {background-position:100% 50%;}
+            100% {background-position:0% 50%;}
+        }
+        /* Make selectbox text white for readability */
+        .stSelectbox label, .stSelectbox span {
+            color: #fff !important;
+        }
         </style>
     """, unsafe_allow_html=True)
     st.markdown("""
