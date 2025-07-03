@@ -127,7 +127,9 @@ st.markdown("""
     <style>
     /* Set the sidebar width and prevent text wrapping */
     [data-testid="stSidebar"] {
-        width: 320px;
+        min-width: 300px;
+        width: 300px;
+        max-width: 350px;
     }
     </style>
 """, unsafe_allow_html=True)
