@@ -122,3 +122,14 @@ elif selected == "How the Model Works":
 elif selected == "About":
     from app_pages.about import show_about
     show_about()
+
+st.markdown("""
+    <style>
+    /* Set the sidebar width and prevent text wrapping */
+    [data-testid="stSidebar"] {
+        min-width: 290px;
+        width: 310px;
+        max-width: 400px;
+    }
+    </style>
+""", unsafe_allow_html=True)
