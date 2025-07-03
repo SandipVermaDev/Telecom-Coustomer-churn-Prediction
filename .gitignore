@@ -20,6 +20,3 @@ env/
 # Temporary/backup files (not needed)
 *.bak
 *~ 
-
-# Ignore the gitignore file
-.gitignore
