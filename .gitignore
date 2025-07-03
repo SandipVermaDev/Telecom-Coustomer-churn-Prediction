@@ -1,2 +1,25 @@
-# Ignore the Documents folder and all its contents
-Documents/ 
+# Ignore the Documents folder and all its contents (not needed for app)
+Documents/
+
+# Jupyter notebook checkpoints (not needed)
+.ipynb_checkpoints/
+
+# Python cache (not needed)
+__pycache__/
+*.pyc
+
+# Virtual environments (not needed, Streamlit Cloud creates its own)
+venv/
+.venv/
+env/
+.env/
+
+# Streamlit cache (not needed for deployment)
+.streamlit/cache/
+
+# Temporary/backup files (not needed)
+*.bak
+*~ 
+
+# Ignore the gitignore file
+.gitignore
