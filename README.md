@@ -6,7 +6,7 @@
 
 **Telecom Customer Churn Prediction** is an interactive web application that leverages machine learning to predict customer churn for telecom companies. The app provides both single and batch prediction modes, insightful visualizations, and actionable retention suggestions—all in a modern, animated UI.
 
-- **Live Demo:** [Streamlit Cloud App](https://telecom-customer-churn-prediction-sandip.streamlit.app/)
+- **Live Demo:** [Temecom Customer Churn Prediction](https://telecom-customer-churn-prediction-sandip.streamlit.app/)
 
 ---
 
@@ -112,7 +112,7 @@ streamlit run app.py
 
 ### 4. Open in Browser
 
-Visit [http://localhost:8501](http://localhost:8501) to use the app.
+Visit [Telecom Churn Prediction]([http://localhost:8501](https://telecom-customer-churn-prediction-sandip.streamlit.app/)) to use the app.
 
 ---
 
