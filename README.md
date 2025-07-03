@@ -14,8 +14,10 @@
 
 - **Single & Batch Churn Prediction:**  
   Predict churn for individual customers or upload a CSV for batch processing.
+- **Prediction Output:**  
+  For each prediction, the app displays the predicted churn probability (%), risk level (Low/Moderate/High), and churn status (Churn/No Churn).
 - **Interactive Visualizations:**  
-  Explore customer demographics, service usage, billing, and churn patterns.
+  Explore customer demographics, service usage, billing etc.
 - **Model Explainability:**  
   SHAP-based feature importance for every prediction.
 - **Retention Suggestions:**  
@@ -60,6 +62,7 @@
 ├── Visualization/               # Pre-generated visualizations
 ├── prediction_logs.csv          # Prediction log file
 ├── requirements.txt             # Python dependencies
+├── Telecom Customer Churn Prediction.ipynb  # Model development and analysis notebook
 └── README.md                    # Project documentation
 ```
 
@@ -77,6 +80,12 @@
    Get tailored suggestions to reduce churn risk.
 5. **Visualization:**  
    Explore customer and churn trends with interactive charts.
+
+---
+
+## 🎥 Demo
+
+![App Demo](assets\demo.gif)
 
 ---
 
@@ -117,8 +126,8 @@ Visit [http://localhost:8501](http://localhost:8501) to use the app.
 ## 👨‍💻 Author
 
 - **Sandip Verma**  
-  MCA student | Data Science & Machine Learning Enthusiast
-
+  MCA student | Data Science & Machine Learning Enthusiast  
+  LinkedIn: [Sandip Verma](https://www.linkedin.com/in/sandip-verma-dev/)
 
 ---
 
