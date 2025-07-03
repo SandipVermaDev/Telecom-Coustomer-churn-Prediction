@@ -112,7 +112,7 @@ streamlit run app.py
 
 ### 4. Open in Browser
 
-Visit [Telecom Customer Churn Prediction App](https://telecom-customer-churn-prediction-sandip.streamlit.app/) to use the app.
+Visit [Telecom Churn Prediction]([http://localhost:8501](https://telecom-customer-churn-prediction-sandip.streamlit.app/)) to use the app.
 
 ---
 
